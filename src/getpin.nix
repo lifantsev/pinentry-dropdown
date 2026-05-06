@@ -11,6 +11,8 @@ in pkgs.resholve.writeScriptBin "getpin"
         "cannot:${lg_pkg}/bin/lg"
     ];
 
+    keep.source = [ "$show_sh" "$hide_sh" ];
+
     inputs = [
         pkgs.coreutils
         lg_pkg

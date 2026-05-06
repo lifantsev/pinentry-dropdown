@@ -63,8 +63,14 @@ then fifo_path="$(getpin-ui --fifo "$fifo_name" --getfifo)"
 else fifo_path="$(getpin-ui --getfifo)"
 fi
 
+show_sh="$XDG_CONFIG_HOME/getpin/show.sh"
+hide_sh="$XDG_CONFIG_HOME/getpin/hide.sh"
+
+if [ ! -f "$show_sh" ]; then lg E "expecting a script to show the ui dropdown at [$show_sh]" ; exit 1 ; fi
+if [ ! -f "$hide_sh" ]; then lg E "expecting a script to hide the ui dropdown at [$hide_sh]" ; exit 1 ; fi
+
 if (( flag_justhide )); then
-    getpin-ui --justhide
+    . "$hide_sh"
     exit 0
 fi
 

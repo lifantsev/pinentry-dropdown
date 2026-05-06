@@ -71,12 +71,6 @@ while [ -n "${1:-}" ]; do
     shift
 done
 
-if (( flag_justhide )); then
-    niridrop --hide --forget getpin-ui
-
-    finish 0
-fi
-
 fifo_path="$XDG_STATE_HOME/getpin/$fifo_name.fifo"
 
 if (( flag_getfifo )); then
@@ -94,6 +88,12 @@ lg I "initializing fifo: $fifo_path"
 mkdir -p "$(dirname "$fifo_path")"
 mkfifo "$fifo_path"
 
+show_sh="$XDG_CONFIG_HOME/getpin/show.sh"
+hide_sh="$XDG_CONFIG_HOME/getpin/hide.sh"
+
+if [ ! -f "$show_sh" ]; then lg E "expecting a script to show the ui dropdown at [$show_sh]" ; exit 1 ; fi
+if [ ! -f "$hide_sh" ]; then lg E "expecting a script to hide the ui dropdown at [$hide_sh]" ; exit 1 ; fi
+
 while true; do
     lg F "awaiting input from fifo: $fifo_path"
     clear
@@ -110,7 +110,7 @@ while true; do
 
     if (( ! flag_fifo )); then # let user handle showing ui if they are using custom fifo
         lg . "opening ui"
-        niridrop --show --forget getpin-ui
+        . "$show_sh"
     fi
 
     [ -n "$title" ] && printf "$COL_BLUE$title$COL_DEFAULT\n"
@@ -134,7 +134,7 @@ while true; do
 
     if (( ! flag_fifo )) && (( ! donthide )); then
         lg . "hiding ui"
-        niridrop --hide --forget getpin-ui
+        . "$hide_sh"
     fi
 
     if (( flag_once )); then

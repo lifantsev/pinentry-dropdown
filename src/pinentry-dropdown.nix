@@ -3,7 +3,7 @@
     lg_pkg = lg.packages.${system}.default;
     getpin-ui_pkg = self.packages.${system}.getpin-ui;
     getpin_pkg = self.packages.${system}.getpin;
-in pkgs.resholve.writeScriptBin "pinentry-niridrop"
+in pkgs.resholve.writeScriptBin "pinentry-dropdown"
 {
     interpreter = "${pkgs.bash}/bin/bash";
 
@@ -21,4 +21,4 @@ in pkgs.resholve.writeScriptBin "pinentry-niridrop"
         getpin-ui_pkg
         getpin_pkg
     ];
-} (builtins.readFile ./pinentry-niridrop.sh)
+} (builtins.readFile ./pinentry-dropdown.sh)
