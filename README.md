@@ -7,8 +7,6 @@ A simple pinentry program that uses a dropdown terminal as its ui. If possible, 
 
 It can work with any dropdown program, but as a result the user must themselves set up scripts that will show & hide the ui. This is made easier through a home manager module that can set the scripts up for you (currently this is only set up for [niridrop](https://github.com/lifantsev/niridrop), if you would like more support, open an issue or email me).
 
-TODO add a video
-
 ## Installation
 
 This program has three components:
@@ -94,4 +92,4 @@ getpin --fifo "test" --once
 
 *--once*: only serve one getpin request before exiting (by default it always awaits further requests)
 
-<img width="600" height="363" alt="getpin" src="https://github.com/user-attachments/assets/e6cfcb89-8e7e-4a91-9f5f-2329ace97065" />
+<img width="1200" height="726" alt="getpin" src="https://github.com/user-attachments/assets/e6cfcb89-8e7e-4a91-9f5f-2329ace97065" />
