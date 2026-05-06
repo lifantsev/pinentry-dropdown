@@ -2,7 +2,7 @@
 
 A simple pinentry program that uses a dropdown terminal as its ui. If possible, it prefers showing the ui inside an active terminal, otherwise it uses the dropdown ui.
 
-It can work with any dropdown program, but as a result the user must themselves set up scripts that will show & hide the ui. This is made easier through a home manager module that can set the scripts up for you (currently this is only set up for [niridrop](https://github.com/lifantsev/niridrop), if you would like more open an issue or email me).
+It can work with any dropdown program, but as a result the user must themselves set up scripts that will show & hide the ui. This is made easier through a home manager module that can set the scripts up for you (currently this is only set up for [niridrop](https://github.com/lifantsev/niridrop), if you would like more support, open an issue or email me).
 
 TODO add a video
 
@@ -15,11 +15,9 @@ This program has three components:
 
 ### flake
 ``` nix
-# add the flake input
 # flake.nix
 inputs.pinentry-dropdown.url = "github:lifantsev/pinentry-dropdown";
 
-# install the 3 packages
 # configuration.nix
 imports = [ inputs.pinentry-dropdown.nixosModules.default ];
 ```
@@ -64,33 +62,33 @@ All arguments are optional. Communicates with `getpin-ui` over ipc and prints th
 getpin --title "enter password to unlock secrets" --prompt "pass"
 getpin --title "enter password to unlock secrets" --error "wrong pass (attempt 2/3)"
 ```
---title: string at the top of the ui in _blue color_.
+*--title*: string at the top of the ui in _blue color_.
 
---prompt: string at the start of input line in _green color_
+*--prompt*: string at the start of input line in _green color_
 
---error: prompt but using _red color_ (if both --prompt & --error are set, error takes precedence)
+*--error*: prompt but using _red color_ (if both --prompt & --error are set, error takes precedence)
 
---desc: string between title & prompt in _gray color_
+*--desc*: string between title & prompt in _gray color_
 
---fifo: stem of fifo file to use to communicate to `getpin-ui` (use with getpin-ui --fifo -- this is used by pinentry-niridrop when creating a getpin-ui in an active tty instead of using the dropdown ui)
+*--fifo*: stem of fifo file to use to communicate to `getpin-ui` (use with getpin-ui --fifo -- this is used by pinentry-niridrop when creating a getpin-ui in an active tty instead of using the dropdown ui)
 
---donthide: don't hide the ui after collecting a pin
+*--donthide*: don't hide the ui after collecting a pin
 
---justhide: just hide the ui and exit (don't collect pin)
+*--justhide*: just hide the ui and exit (don't collect pin)
 
---showpin: show the pin as the user types it (instead of obfuscating with '*' chars)
+*--showpin*: show the pin as the user types it (instead of obfuscating with '*' chars)
 
 ### getpin-ui
 All arguments are optional. Awaits ipc communication from `getpin`.
 ``` sh
 getpin --fifo "test" --once
 ```
---fifo: set the stem of the fifo file to use for ipc (use with getpin --fifo)
+*--fifo*: set the stem of the fifo file to use for ipc (use with getpin --fifo)
 
---getfifo: print the path to the ipc fifo and exit
+*--getfifo*: print the path to the ipc fifo and exit
 
---justhide: just hide the ui and exit
+*--justhide*: just hide the ui and exit
 
---once: only serve one getpin request before exiting (by default it always awaits further requests)
+*--once*: only serve one getpin request before exiting (by default it always awaits further requests)
 
 TODO demo video
