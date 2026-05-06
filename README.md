@@ -1,3 +1,4 @@
+
 # pinentry-dropdown
 
 A simple pinentry program that uses a dropdown terminal as its ui. If possible, it prefers showing the ui inside an active terminal, otherwise it uses the dropdown ui.
@@ -93,4 +94,4 @@ getpin --fifo "test" --once
 
 *--once*: only serve one getpin request before exiting (by default it always awaits further requests)
 
-TODO demo video
+<img width="600" height="363" alt="getpin" src="https://github.com/user-attachments/assets/e6cfcb89-8e7e-4a91-9f5f-2329ace97065" />
