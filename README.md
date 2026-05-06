@@ -42,7 +42,6 @@ services.gpg-agent.pinentry.package = pkgs.pinentry-niridrop;
 ```
 
 ### getpin
-#### main usage
 All arguments are optional.
 ``` sh
 # example
@@ -50,15 +49,29 @@ getpin --title "enter password to unlock secrets" --prompt "pass"
 getpin --title "enter password to unlock secrets" --error "wrong pass (attempt 2/3)"
 ```
 --title: string at the top of the ui in _blue color_.
+
 --prompt: string at the start of input line in _green color_
+
 --error: prompt but using _red color_ (if both --prompt & --error are set, error takes precedence)
+
 --desc: string between title & prompt in _gray color_
 
---fifo: stem of fifo file to use to communicate to `getpin-ui` (use in conjunction with getpin-ui --fifo "mystem" -- this is used by pinentry-niridrop when creating a getpin-ui in an active tty instead of using the dropdown ui)
+--fifo: stem of fifo file to use to communicate to `getpin-ui` (use with getpin-ui --fifo -- this is used by pinentry-niridrop when creating a getpin-ui in an active tty instead of using the dropdown ui)
+
 --donthide: don't hide the ui after collecting a pin
---justhide: just hide the ui and exit
+
+--justhide: just hide the ui and exit (don't collect pin)
+
 --showpin: show the pin as the user types it (instead of obfuscating with '*' chars)
 
 ### getpin-ui
+``` sh
+getpin --fifo "test" --once
+```
+--fifo: set the stem of the fifo file to use for ipc (use with getpin --fifo)
 
-TODO
+--getfifo: print the path to the ipc fifo and exit
+
+--justhide: just hide the ui and exit
+
+--once: only serve one getpin request before exiting (by default it always awaits further requests)
