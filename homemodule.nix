@@ -19,7 +19,7 @@
         };
 
         showhide = lib.mkOption {
-            description = "use premade scripts for this dropdown program as the show & hide scripts";
+            description = "set up show/hide scripts using the premade scripts for this dropdown program";
             type = lib.types.enum [ "" "niridrop" ];
             default = "";
             example = "niridrop";
