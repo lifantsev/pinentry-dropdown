@@ -3,7 +3,7 @@
 
 A simple pinentry program that uses a dropdown terminal as its ui. If possible, it prefers showing the ui inside an active terminal, otherwise it uses the dropdown ui.
 
-<img width="600" height="400" alt="demo" src="https://github.com/user-attachments/assets/11dde6cc-c6c6-4a63-95f8-aa4161d56f8b" />
+<img width="1200" height="800" alt="demo" src="https://github.com/user-attachments/assets/11dde6cc-c6c6-4a63-95f8-aa4161d56f8b" />
 
 It can work with any dropdown program, but as a result the user must themselves set up scripts that will show & hide the ui. This is made easier through a home manager module that can set the scripts up for you (currently this is only set up for [niridrop](https://github.com/lifantsev/niridrop), if you would like more support, open an issue or email me).
 
