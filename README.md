@@ -1,7 +1,7 @@
 
 # pinentry-dropdown
 
-A simple pinentry program that uses a dropdown terminal as its ui. If possible, it prefers showing the ui inside an active terminal, otherwise it uses the dropdown ui.
+A simple pinentry program that uses a dropdown terminal as its ui. If possible, it prefers showing the ui inside an active terminal.
 
 <img width="1200" height="800" alt="demo" src="https://github.com/user-attachments/assets/11dde6cc-c6c6-4a63-95f8-aa4161d56f8b" />
 
