@@ -32,7 +32,6 @@ function starread() {
 }
 
 flag_getfifo=0
-flag_justhide=0
 flag_once=0
 flag_fifo=0
 fifo_name=default
@@ -53,10 +52,6 @@ while [ -n "${1:-}" ]; do
         "--getfifo") # just print fifo path
             flag_getfifo=1
             lg . "set flag_getfifo[$flag_getfifo]"
-        ;;
-        "--justhide") # just hide ui
-            flag_justhide=1
-            lg . "set flag_justhide[$flag_justhide]"
         ;;
         "--once") # only serve one request before exiting
             lg . "set flag_once[$flag_once]"

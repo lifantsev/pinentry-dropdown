@@ -88,8 +88,6 @@ getpin --fifo "test" --once
 
 *--getfifo*: print the path to the ipc fifo and exit
 
-*--justhide*: just hide the ui and exit
-
 *--once*: only serve one getpin request before exiting (by default it always awaits further requests)
 
 <img width="1200" height="726" alt="getpin" src="https://github.com/user-attachments/assets/e6cfcb89-8e7e-4a91-9f5f-2329ace97065" />
