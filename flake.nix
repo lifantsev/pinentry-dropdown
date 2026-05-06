@@ -19,6 +19,8 @@
             getpin-ui = import ./src/getpin-ui.nix         args system;
         });
 
+        homeManagerModules.default = hmargs: import ./homemodule.nix hmargs;
+
         nixosModules.default = { pkgs, ... }: {
             nixpkgs.overlays = [(final: prev: {
                 pinentry-niridrop = self.packages.${final.system}.default;
