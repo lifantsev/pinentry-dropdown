@@ -1,7 +1,7 @@
 # article about pinentry: https://velvetcache.org/2023/03/26/a-peek-inside-pinentry/
 # pinentry documentation: https://gist.github.com/mdeguzis/05d1f284f931223624834788da045c65
 
-export LGENABLE=1 # other apps inherit this, but pinentry runs in a clean environment (so need to set manually)
+export LGENABLE=0 # other apps inherit this, but pinentry runs in a clean environment (so need to set manually)
 export LGSTEM=pinentry
 
 lg start
