@@ -1,7 +1,7 @@
 # article about pinentry: https://velvetcache.org/2023/03/26/a-peek-inside-pinentry/
 # pinentry documentation: https://gist.github.com/mdeguzis/05d1f284f931223624834788da045c65
 
-export LGENABLE=0 # other apps inherit this, but pinentry runs in a clean environment (so need to set manually)
+export LGENABLE=1 # other apps inherit this, but pinentry runs in a clean environment (so need to set manually)
 export LGSTEM=pinentry
 
 lg start
@@ -31,13 +31,17 @@ fi
 
 # NOTE --donthide and --justhide MUST BE FIRST ARGUMENT!!!!
 function mygetpin() {
-    lg . "mygetpin with ttyname[$ttyname] DISPLAY[$DISPLAY] ttytype[$ttytype]"
+    lg . "mygetpin: ttyname[$ttyname] ttytype[$ttytype] WAYLAND_DISPLAY[${WAYLAND_DISPLAY:-}] DISPLAY[${DISPLAY:-}]"
 
     # fallback to standard getpin if environment isn't suitable for tty control
-    if [ -z "$ttyname" ];
+
+    if [ -z "$ttyname" ]; # if no tty is available to control
     then getpin "$@" ; return ; fi
 
-    if [ -n "${DISPLAY:-}" ] && [ "$ttytype" == linux ]
+    if [ -n "${WAYLAND_DISPLAY:-}" ] && [ "$ttytype" == linux ] # if wayland is running
+    then getpin "$@" ; return ; fi
+
+    if [ -n "${DISPLAY:-}" ] && [ "$ttytype" == linux ] # if xserver is running
     then getpin "$@" ; return ; fi
 
     # control the tty given to use by gpg-agent to show getpin on a specific terminal
