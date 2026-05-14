@@ -4,34 +4,34 @@
 export LGENABLE=0 # other apps inherit this, but pinentry runs in a clean environment (so need to set manually)
 export LGSTEM=pinentry
 
-lg start
+lga start
 
-lg I "HOME[$HOME]"
-lg I "XDG_STATE_HOME[$XDG_STATE_HOME]"
-lg I "XDG_RUNTIME_DIR[$XDG_RUNTIME_DIR]"
+lga I "HOME[$HOME]"
+lga I "XDG_STATE_HOME[$XDG_STATE_HOME]"
+lga I "XDG_RUNTIME_DIR[$XDG_RUNTIME_DIR]"
 
 function bye() {
-    lg I "terminating connection: assuan bye"
+    lga I "terminating connection: assuan bye"
     echo BYE
     exit 1
 }
 
 function assuan() {
-    lg . "  responding: $1"
+    lga . "  responding: $1"
     echo "$1"
 }
 
 if ! command -v getpin &> /dev/null;
-then lg E "getpin is not available in this environment, exiting" ; bye
+then lge "getpin is not available in this environment, exiting" ; bye
 fi
 
 if ! command -v sed &> /dev/null;
-then lg E "sed is not available in this environment, exiting" ; bye
+then lge "sed is not available in this environment, exiting" ; bye
 fi
 
 # NOTE --donthide and --justhide MUST BE FIRST ARGUMENT!!!!
 function mygetpin() {
-    lg . "mygetpin: ttyname[$ttyname] ttytype[$ttytype] WAYLAND_DISPLAY[${WAYLAND_DISPLAY:-}] DISPLAY[${DISPLAY:-}]"
+    lga . "mygetpin: ttyname[$ttyname] ttytype[$ttytype] WAYLAND_DISPLAY[${WAYLAND_DISPLAY:-}] DISPLAY[${DISPLAY:-}]"
 
     # fallback to standard getpin if environment isn't suitable for tty control
 
@@ -45,7 +45,7 @@ function mygetpin() {
     then getpin "$@" ; return ; fi
 
     # control the tty given to use by gpg-agent to show getpin on a specific terminal
-    lg . "using custom tty control"
+    lga . "using custom tty control"
 
     # process first arg
     flag_donthide=0
@@ -83,7 +83,7 @@ while :; do
     if ! read -r cmd args 2>/dev/null; then sleep 0.4; continue ; fi
     ok=1
 
-    lg . "assuan got cmd[$cmd] with args[$args]"
+    lga . "assuan got cmd[$cmd] with args[$args]"
 
     case "$cmd" in
         "BYE"*) assuan "OK Closing connection"; exit 0 ;;
@@ -93,13 +93,13 @@ while :; do
             [ -n "$desc_tail" ] && desc_tail+="\n"
 
             if [ -z "$repeat" ]; then
-                lg I "getting pin"
+                lga I "getting pin"
 
                 if ! pin="$(mygetpin --title "$desc_head" --desc "$desc_tail" --prompt "$prompt" --error "$error")"
                 then pin=""; fi
             else
                 while true; do
-                    lg I "getting pin"
+                    lga I "getting pin"
 
                     if ! pin="$(mygetpin --donthide --title "$desc_head" --desc "$desc_tail" --prompt "$prompt" --error "$error")"
                     then pin=""; fi
@@ -107,7 +107,7 @@ while :; do
 
                     error=""
 
-                    lg I "getting repeat pin"
+                    lga I "getting repeat pin"
 
                     if ! repeat_pin="$(mygetpin --donthide --title "$desc_head" --desc "$desc_tail" --prompt "$repeat" --error "$error")"
                     then repeat_pin=""; fi
@@ -115,11 +115,11 @@ while :; do
                     [ -z "$repeat_pin" ] && pin="" && break # break on cancel
 
                     if [ "$repeat_pin" == "$pin" ]; then
-                        lg I "success: pins match"
+                        lga I "success: pins match"
                         assuan "S PIN_REPEATED"
                         break
                     else
-                        lg I "fail: pins didn't match, trying again"
+                        lga I "fail: pins didn't match, trying again"
                         error="Did not match"
                     fi
                 done
@@ -128,7 +128,7 @@ while :; do
             fi
 
             if [ -n "$pin" ];
-            then echo "D $pin" ; lg I "responding with [[pin]] (hidden)"
+            then echo "D $pin" ; lga I "responding with [[pin]] (hidden)"
             else assuan "ERR 83886179 Operation cancelled <getpin>"; ok=0
             fi
 
@@ -138,7 +138,7 @@ while :; do
         ;;
         "CONFIRM"*)
             if ! res="$(mygetpin --showpin --title "Please confirm: $desc" --prompt "[yes]/no")"; then
-                lg E "getpin exited with an error, using res=no" > /dev/null # devnull to not screw with assuan ipc
+                lge "getpin exited with an error, using res=no" > /dev/null # devnull to not screw with assuan ipc
                 res="no"
             fi
 
@@ -175,5 +175,5 @@ while :; do
     (( ok )) && assuan "OK Success"
 done
 
-lg finish
+lga finish
 

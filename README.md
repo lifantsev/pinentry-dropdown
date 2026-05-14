@@ -24,7 +24,9 @@ imports = [ inputs.pinentry-dropdown.nixosModules.default ];
 ```
 
 ### other
-If you don't use nix, you may download the [scripts](https://github.com/lifantsev/pinentry-dropdown/tree/main/src), add shebangs, and install them however you usually do. The scripts optionally depend on [lg](https://github.com/lifantsev/lg), if you don't have it installed, just remove the lines that refer to `lg` with `sed -i '/ *lg / d' <script.sh>`.
+If you don't use nix, you may download the [scripts](https://github.com/lifantsev/pinentry-dropdown/tree/main/src), add shebangs, and install them however you usually do.
+
+Note that the scripts optionally depend on [lg logging utils](https://github.com/lifantsev/lg). If you don't want to install them remove the calls to `lga` and `lge`.
 
 ## Configuration
 

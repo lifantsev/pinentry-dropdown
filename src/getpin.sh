@@ -3,9 +3,9 @@
 export LGSTEM="getpin"
 export LGSPEC="cli"
 
-lg start
+lga start
 
-function finish() { lg finish ; exit "$1" ; }
+function finish() { lga finish ; exit "$1" ; }
 
 flag_fifo=0
 fifo_name=""
@@ -21,40 +21,40 @@ while [ $# -gt 0 ]; do
     flag="$1"
     shift
 
-    lg I "handling flag[$flag]"
+    lga I "handling flag[$flag]"
 
     case "$flag" in
         "--fifo"|"--title"|"--desc"|"--prompt"|"--error")
             if [ $# -eq 0 ] || [[ "${1:-}" == "-"* ]]; then
-                lg E "option $flag expects an argument[${1:-}], but it was malformed, exiting";
+                lge "option $flag expects an argument[${1:-}], but it was malformed, exiting";
                 finish 1;
             fi
             
             arg="$1"
             shift
 
-            lg . "found arg[$arg]"
+            lga . "found arg[$arg]"
         ;;
     esac
 
     case "$flag" in
         "--fifo") # set fifo stem to use
             flag_fifo=1
-            lg . "set flag_fifo[$flag_fifo]"
+            lga . "set flag_fifo[$flag_fifo]"
             fifo_name="$arg"
-            lg . "set fifo_name[$fifo_name]"
+            lga . "set fifo_name[$fifo_name]"
         ;;
 
-        "--title")   flag_title="$arg" ; lg . "set flag_title[$flag_title]" ;;
-        "--desc")     flag_desc="$arg" ; lg . "set flag_desc[$flag_desc]" ;;
-        "--prompt") flag_prompt="$arg" ; lg . "set flag_prompt[$flag_prompt]" ;;
-        "--error")   flag_error="$arg" ; lg . "set fifo_name[$flag_error]" ;;
+        "--title")   flag_title="$arg" ; lga . "set flag_title[$flag_title]" ;;
+        "--desc")     flag_desc="$arg" ; lga . "set flag_desc[$flag_desc]" ;;
+        "--prompt") flag_prompt="$arg" ; lga . "set flag_prompt[$flag_prompt]" ;;
+        "--error")   flag_error="$arg" ; lga . "set fifo_name[$flag_error]" ;;
 
-        "--showpin") flag_showpin=1    ; lg . "set flag_showpin[$flag_showpin]" ;;
-        "--donthide") flag_donthide=1  ; lg . "set flag_donthide[$flag_donthide]" ;;
-        "--justhide") flag_justhide=1  ; lg . "set flag_justhide[$flag_justhide]" ;;
+        "--showpin") flag_showpin=1    ; lga . "set flag_showpin[$flag_showpin]" ;;
+        "--donthide") flag_donthide=1  ; lga . "set flag_donthide[$flag_donthide]" ;;
+        "--justhide") flag_justhide=1  ; lga . "set flag_justhide[$flag_justhide]" ;;
 
-        *) lg E "unrecognized flag[$flag]" ; finish 1 ;;
+        *) lge "unrecognized flag[$flag]" ; finish 1 ;;
     esac
 done
 
@@ -66,20 +66,20 @@ fi
 show_sh="$XDG_CONFIG_HOME/getpin/show.sh"
 hide_sh="$XDG_CONFIG_HOME/getpin/hide.sh"
 
-if [ ! -f "$show_sh" ]; then lg E "expecting a script to show the ui dropdown at [$show_sh]" ; exit 1 ; fi
-if [ ! -f "$hide_sh" ]; then lg E "expecting a script to hide the ui dropdown at [$hide_sh]" ; exit 1 ; fi
+if [ ! -f "$show_sh" ]; then lge "expecting a script to show the ui dropdown at [$show_sh]" ; exit 1 ; fi
+if [ ! -f "$hide_sh" ]; then lge "expecting a script to hide the ui dropdown at [$hide_sh]" ; exit 1 ; fi
 
 if (( flag_justhide )); then
     . "$hide_sh"
     exit 0
 fi
 
-lg I "writing request to fifo[$fifo_path]"
+lga I "writing request to fifo[$fifo_path]"
 
 printf "%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F" "$flag_showpin" "$flag_donthide" "$flag_title" "$flag_desc" "$flag_prompt" "$flag_error" > "$fifo_path"
 
-lg . "awaiting result from fifo[$fifo_path]"
+lga . "awaiting result from fifo[$fifo_path]"
 pin="$(cat "$fifo_path")"
-lg . "got a pin, printing it"
+lga . "got a pin, printing it"
 echo "$pin"
 
