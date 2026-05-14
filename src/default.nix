@@ -25,6 +25,8 @@
             pkgs.gnugrep
             pkgs.gawk
         ];
+
+        keep.source = [ "$show_sh" "$hide_sh" ];
     };
 
     getpin = build "getpin" {
